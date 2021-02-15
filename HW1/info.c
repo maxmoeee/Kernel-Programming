@@ -76,7 +76,7 @@ void get_cpu_usage(cpustat* stats, int num, FILE* fp) {
     }
 }
 
-void cpu_usage(int seconds) {
+void cpu_usage() {
     FILE* fp = fopen("/proc/stat", "r");
     int num_cpu = 0;
 
@@ -93,22 +93,19 @@ void cpu_usage(int seconds) {
     }
 
     cpustat stats[num_cpu];
-    sleep(seconds);
     get_cpu_usage(stats, num_cpu, fp);
 
     char result[512];
     for (int i = 0; i < num_cpu; i++) {
+        if (i != 0)
+            strcat(result, "  ");
         char percentage[15];
-        sprintf(percentage, "CPU%d: %5.1f%%  ", i, stats[i].used*100.0/stats[i].total);
+        sprintf(percentage, "CPU%d: %5.1f%%", i, stats[i].used*100.0/stats[i].total);
         if (i == 0)
             strcpy(result, percentage);
         else
             strcat(result, percentage);
     }
-    result[15*num_cpu - 2] = '\0';
-
-    uptime();
-    meminfo();
     printf("%s\n", result);
 }
 
@@ -121,6 +118,11 @@ int main(int argv, char* args[]) {
             return -1;
         }
     }
-    cpu_usage(seconds);
+    while (1) {
+        sleep(seconds);
+        uptime();
+        meminfo();
+        cpu_usage();
+    }
     return 0;
 }
