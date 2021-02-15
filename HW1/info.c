@@ -1,7 +1,7 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include <unistd.h>
 #include <string.h>
-
 
 typedef struct cpustat {
     unsigned long total;
@@ -92,25 +92,35 @@ void cpu_usage(int seconds) {
         else break;
     }
 
-    cpustat init_stats[num_cpu], later_stats[num_cpu];
-    get_cpu_usage(init_stats, num_cpu, fp);
+    cpustat stats[num_cpu];
     sleep(seconds);
-    get_cpu_usage(later_stats, num_cpu, fp);
+    get_cpu_usage(stats, num_cpu, fp);
 
     char result[512];
     for (int i = 0; i < num_cpu; i++) {
-        // printf("%lu %lu\n", init_stats[i].total, later_stats[i].total);
-        char percentage[14];
-        sprintf(percentage, "CPU%d: %5.1f  ", i, (later_stats[i].used - init_stats[i].used)*1.0/(later_stats[i].total - init_stats[i].total));
-        strcat(result, percentage);
+        char percentage[15];
+        sprintf(percentage, "CPU%d: %5.1f%%  ", i, stats[i].used*100.0/stats[i].total);
+        if (i == 0)
+            strcpy(result, percentage);
+        else
+            strcat(result, percentage);
     }
+    result[15*num_cpu - 2] = '\0';
 
     uptime();
     meminfo();
     printf("%s\n", result);
 }
 
-int main() {
-    cpu_usage(3);
+int main(int argv, char* args[]) {
+    int seconds = 3;
+    if (argv == 2) {
+        seconds = atoi(args[1]);
+        if (seconds <= 0) {
+            printf("please input valid interval!\n");
+            return -1;
+        }
+    }
+    cpu_usage(seconds);
     return 0;
 }
