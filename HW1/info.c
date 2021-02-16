@@ -114,7 +114,7 @@ int main(int argv, char* args[]) {
     if (argv == 2) {
         seconds = atoi(args[1]);
         if (seconds <= 0) {
-            printf("please input valid interval!\n");
+            printf("please input valid time interval!\n");
             return -1;
         }
     }
