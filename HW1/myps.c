@@ -6,12 +6,6 @@
 #include <string.h>
 #include <unistd.h>
 
-/**
- * 1. Check /proc/<pid>/stat
- * 2. If a process is R(unning), pick its (2 char[16])Name, (23 %lu) vsize, utime(14 %lu)+stime(15 %lu)
- * 3. Check /proc/<pid>/status for uid
- */
-
 typedef struct psinfo {
     int pid;
     char name[65];
