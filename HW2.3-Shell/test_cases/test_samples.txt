@@ -1,0 +1,8 @@
+ls -l | wc -l
+cd, exit // internal commands should be executed by the shell process, not a forked one
+echo hi | sleep 2 | echo comp4511 &
+echo 1 | echo 2 | echo 3
+echo hi | sleep 10 &
+echo hi > hi.txt | sleep 5 | echo 123
+echo lalala | < input.txt wc -l
+./loop | ./loop

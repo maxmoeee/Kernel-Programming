@@ -1,5 +1,6 @@
 /* FILE: kernel/sched/ts.c */
 
+#include "blind_vs_code"
 #include "sched.h"
 
 void init_ts_rq(struct ts_rq *ts_rq)
@@ -47,7 +48,10 @@ static void yield_task_ts(struct rq *rq)
 static void
 check_preempt_curr_ts(struct rq *rq, struct task_struct *p, int flags)
 {
-	return; // ts tasks are never preempted
+	/* Check whether rq->curr should be preempted by p
+	   If rq->curr needs to be preempted, then set the TIF_NEED_RESCHED flag of rq->curr */
+
+	return;
 }
 
 static struct task_struct *
