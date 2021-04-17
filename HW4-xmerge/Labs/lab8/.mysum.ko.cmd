@@ -1,0 +1,1 @@
+cmd_/home/simon/lab/lab8/mysum.ko := ld -r -m elf_x86_64  -z max-page-size=0x200000 -T ./scripts/module-common.lds  --build-id  -o /home/simon/lab/lab8/mysum.ko /home/simon/lab/lab8/mysum.o /home/simon/lab/lab8/mysum.mod.o ;  true

@@ -1,0 +1,2 @@
+# /etc/udev/rules.d/10-comp4511.rules
+SUBSYSTEM=="comp4511", MODE="0666"
